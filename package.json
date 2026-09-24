@@ -1,0 +1,14 @@
+{
+  "name": "qyzyljar-smart-region",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "test": "node --test",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=22.9.0"
+  }
+}

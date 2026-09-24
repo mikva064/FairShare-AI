@@ -1,0 +1,23 @@
+{
+  "name": "qyzyljar-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ../scripts/dev.mjs",
+    "build": "tsc --noEmit -p tsconfig.app.json && node local-vite.mjs build",
+    "preview": "node local-vite.mjs preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.10"
+  }
+}

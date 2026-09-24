@@ -1,0 +1,563 @@
+{
+  "id": "petropavlovsk-demo-v1",
+  "name": "Qyzyljar AI — Петропавловск",
+  "synthetic": true,
+  "source": "Авторский учебный сценарий; происхождение и ограничения — docs/data-sources.md",
+  "budget": 100,
+  "budgetUnit": "условные единицы",
+  "horizonQuarters": 8,
+  "decisionsRequired": 5,
+  "maxPerDirection": 2,
+  "criticalThreshold": 40,
+  "criticalPenalty": 1,
+  "averageWeight": 0.7,
+  "minimumWeight": 0.3,
+  "directions": {
+    "transport": "Транспорт",
+    "ecology": "Городская среда",
+    "social": "Соцсфера",
+    "safety": "Безопасность",
+    "services": "ЖКХ и сервисы"
+  },
+  "indicators": {
+    "T1": {
+      "name": "Разгрузка дорог",
+      "direction": "transport",
+      "weight": 0.1
+    },
+    "T2": {
+      "name": "Доступность общественного транспорта",
+      "direction": "transport",
+      "weight": 0.1
+    },
+    "E1": {
+      "name": "Озеленение",
+      "direction": "ecology",
+      "weight": 0.09
+    },
+    "E2": {
+      "name": "Качество воздуха",
+      "direction": "ecology",
+      "weight": 0.11
+    },
+    "S1": {
+      "name": "Школы и детсады",
+      "direction": "social",
+      "weight": 0.11
+    },
+    "S2": {
+      "name": "Поликлиники и первичная медпомощь",
+      "direction": "social",
+      "weight": 0.11
+    },
+    "B1": {
+      "name": "Безопасность городской среды",
+      "direction": "safety",
+      "weight": 0.09
+    },
+    "B2": {
+      "name": "Безопасность дорожного движения",
+      "direction": "safety",
+      "weight": 0.09
+    },
+    "C1": {
+      "name": "Надёжность ЖКХ",
+      "direction": "services",
+      "weight": 0.1
+    },
+    "C2": {
+      "name": "Скорость решения обращений жителей",
+      "direction": "services",
+      "weight": 0.1
+    }
+  },
+  "districts": [
+    {
+      "id": "center",
+      "name": "Центральная зона",
+      "populationShare": 0.27,
+      "indicators": {
+        "T1": 45,
+        "T2": 62,
+        "E1": 68,
+        "E2": 72,
+        "S1": 48,
+        "S2": 55,
+        "B1": 78,
+        "B2": 60,
+        "C1": 75,
+        "C2": 70
+      }
+    },
+    {
+      "id": "residential",
+      "name": "Жилые кварталы",
+      "populationShare": 0.24,
+      "indicators": {
+        "T1": 40,
+        "T2": 75,
+        "E1": 50,
+        "E2": 55,
+        "S1": 60,
+        "S2": 65,
+        "B1": 62,
+        "B2": 52,
+        "C1": 50,
+        "C2": 60
+      }
+    },
+    {
+      "id": "industrial",
+      "name": "Промышленная зона",
+      "populationShare": 0.2,
+      "indicators": {
+        "T1": 50,
+        "T2": 70,
+        "E1": 42,
+        "E2": 40,
+        "S1": 62,
+        "S2": 68,
+        "B1": 58,
+        "B2": 55,
+        "C1": 45,
+        "C2": 55
+      }
+    },
+    {
+      "id": "riverside",
+      "name": "Прибрежная зона",
+      "populationShare": 0.13,
+      "indicators": {
+        "T1": 52,
+        "T2": 68,
+        "E1": 55,
+        "E2": 50,
+        "S1": 58,
+        "S2": 60,
+        "B1": 52,
+        "B2": 58,
+        "C1": 55,
+        "C2": 58
+      }
+    },
+    {
+      "id": "developing",
+      "name": "Новая застройка",
+      "populationShare": 0.16,
+      "indicators": {
+        "T1": 55,
+        "T2": 40,
+        "E1": 45,
+        "E2": 65,
+        "S1": 38,
+        "S2": 35,
+        "B1": 55,
+        "B2": 50,
+        "C1": 60,
+        "C2": 50
+      }
+    }
+  ],
+  "measures": [
+    {
+      "id": "M1",
+      "direction": "transport",
+      "name": "Приоритет автобусов на загруженных улицах",
+      "scope": "district",
+      "cost": 18,
+      "lagQuarters": 2,
+      "effects": {
+        "T1": 6,
+        "T2": 9
+      }
+    },
+    {
+      "id": "M2",
+      "direction": "transport",
+      "name": "Адаптивные светофоры и безопасные перекрёстки",
+      "scope": "city",
+      "cost": 22,
+      "lagQuarters": 2,
+      "effects": {
+        "T1": 4,
+        "B2": 3
+      }
+    },
+    {
+      "id": "M3",
+      "direction": "transport",
+      "name": "Обновление автобусов и доступные остановки",
+      "scope": "district",
+      "cost": 30,
+      "lagQuarters": 4,
+      "effects": {
+        "T1": 16,
+        "T2": 20,
+        "E2": 4
+      }
+    },
+    {
+      "id": "M4",
+      "direction": "ecology",
+      "name": "Дворовые скверы и общественные пространства",
+      "scope": "district",
+      "cost": 15,
+      "lagQuarters": 2,
+      "effects": {
+        "E1": 12,
+        "E2": 3,
+        "B1": 2
+      }
+    },
+    {
+      "id": "M5",
+      "direction": "ecology",
+      "name": "Утепление домов частного сектора",
+      "scope": "district",
+      "cost": 25,
+      "lagQuarters": 3,
+      "effects": {
+        "E2": 14,
+        "C1": 4
+      }
+    },
+    {
+      "id": "M6",
+      "direction": "ecology",
+      "name": "Озеленение и защитные посадки",
+      "scope": "city",
+      "cost": 20,
+      "lagQuarters": 4,
+      "effects": {
+        "E1": 5,
+        "E2": 3
+      }
+    },
+    {
+      "id": "M7",
+      "direction": "social",
+      "name": "Дополнительные места в школах и детсадах",
+      "scope": "district",
+      "cost": 24,
+      "lagQuarters": 3,
+      "effects": {
+        "S1": 16
+      }
+    },
+    {
+      "id": "M8",
+      "direction": "social",
+      "name": "Доступная первичная медпомощь",
+      "scope": "district",
+      "cost": 20,
+      "lagQuarters": 3,
+      "effects": {
+        "S2": 14
+      }
+    },
+    {
+      "id": "M9",
+      "direction": "social",
+      "name": "Дворовые спортивные площадки",
+      "scope": "district",
+      "cost": 10,
+      "lagQuarters": 1,
+      "effects": {
+        "S1": 3,
+        "S2": 3,
+        "B1": 3
+      }
+    },
+    {
+      "id": "M10",
+      "direction": "safety",
+      "name": "Освещение дворов и пешеходных маршрутов",
+      "scope": "district",
+      "cost": 12,
+      "lagQuarters": 1,
+      "effects": {
+        "B1": 12,
+        "B2": 2
+      }
+    },
+    {
+      "id": "M11",
+      "direction": "safety",
+      "name": "Безопасные переходы и школьные зоны",
+      "scope": "district",
+      "cost": 10,
+      "lagQuarters": 1,
+      "effects": {
+        "B2": 12,
+        "T1": -2
+      }
+    },
+    {
+      "id": "M12",
+      "direction": "services",
+      "name": "Единое окно обращений жителей",
+      "scope": "city",
+      "cost": 14,
+      "lagQuarters": 1,
+      "effects": {
+        "C2": 5
+      }
+    },
+    {
+      "id": "M13",
+      "direction": "services",
+      "name": "Ремонт теплотрасс и водопроводов",
+      "scope": "district",
+      "cost": 28,
+      "lagQuarters": 4,
+      "effects": {
+        "C1": 18,
+        "E2": 2
+      }
+    },
+    {
+      "id": "M14",
+      "direction": "services",
+      "name": "Аварийные бригады ЖКХ и раннее оповещение",
+      "scope": "city",
+      "cost": 16,
+      "lagQuarters": 1,
+      "effects": {
+        "C1": 5,
+        "C2": 2
+      }
+    },
+    {
+      "id": "M15",
+      "direction": "safety",
+      "name": "Ливневая канализация и защита от подтоплений",
+      "scope": "district",
+      "cost": 18,
+      "lagQuarters": 2,
+      "effects": {
+        "B1": 8,
+        "C1": 6
+      }
+    }
+  ],
+  "synergies": [
+    {
+      "measureIds": [
+        "M1",
+        "M2"
+      ],
+      "targetMeasureId": "M1",
+      "effects": {
+        "T1": 2
+      }
+    },
+    {
+      "measureIds": [
+        "M10",
+        "M12"
+      ],
+      "targetMeasureId": "M10",
+      "effects": {
+        "B1": 2
+      }
+    },
+    {
+      "measureIds": [
+        "M5",
+        "M6"
+      ],
+      "targetMeasureId": "M5",
+      "effects": {
+        "E2": 2
+      }
+    }
+  ],
+  "incompatibilities": [
+    {
+      "measureIds": [
+        "M1",
+        "M3"
+      ],
+      "scope": "any",
+      "reason": "Учебное ограничение: в этом раунде выбирается только одна из двух крупных автобусных программ."
+    },
+    {
+      "measureIds": [
+        "M4",
+        "M7"
+      ],
+      "scope": "same-district",
+      "reason": "Учебное ограничение: сквер и расширение социальной инфраструктуры используют один условный участок зоны."
+    },
+    {
+      "measureIds": [
+        "M5",
+        "M13"
+      ],
+      "scope": "same-district",
+      "reason": "Учебное ограничение: две программы обновления теплоснабжения не совмещаются в одной зоне в этом раунде."
+    }
+  ],
+  "exampleDecisions": [
+    {
+      "measureId": "M7",
+      "districtId": "developing"
+    },
+    {
+      "measureId": "M8",
+      "districtId": "developing"
+    },
+    {
+      "measureId": "M10",
+      "districtId": "developing"
+    },
+    {
+      "measureId": "M12"
+    },
+    {
+      "measureId": "M5",
+      "districtId": "industrial"
+    }
+  ],
+  "profile": {
+    "city": "Петропавловск",
+    "region": "Северо-Казахстанская область",
+    "edition": "Подготовка к AI BATTLE · Smart Region",
+    "scoreName": "Индекс городской среды",
+    "dataStatus": "Учебные данные",
+    "dataNote": "Бюджет, баллы, веса зон, сроки и эффекты — условные параметры демонстрации. Это не статистика, не смета и не прогноз для Петропавловска.",
+    "zoneNote": "Пять учебных зон — условные типы городской территории, не административное деление и не карта фактических рисков.",
+    "sources": [
+      {
+        "title": "Развитие Петропавловска: итоги 2025 года",
+        "url": "https://www.gov.kz/memleket/entities/sko-sayasat/press/news/details/1115689?lang=ru",
+        "summary": "Город сообщает о благоустройстве, социальных объектах и модернизации инженерной инфраструктуры.",
+        "accessedAt": "2026-09-24"
+      },
+      {
+        "title": "Энергетика и ЖКХ СКО",
+        "url": "https://www.gov.kz/memleket/entities/sko-energy/activities/457?lang=ru",
+        "summary": "Региональный обзор описывает теплоснабжение, водоснабжение и водоотведение. Сведения об области нельзя автоматически переносить на отдельные городские зоны.",
+        "accessedAt": "2026-09-24"
+      },
+      {
+        "title": "Паводок 2026 года: мероприятия СКО",
+        "url": "https://www.gov.kz/memleket/entities/sko/press/article/details/234839",
+        "summary": "Официальный материал описывает защитные мероприятия, включая работы в Петропавловске. Он не задаёт вероятность подтопления в учебной модели.",
+        "accessedAt": "2026-09-24"
+      }
+    ],
+    "presets": [
+      {
+        "id": "balanced",
+        "name": "Социальный баланс",
+        "description": "Школы, медицина и безопасность новой застройки.",
+        "decisions": [
+          {
+            "measureId": "M7",
+            "districtId": "developing"
+          },
+          {
+            "measureId": "M8",
+            "districtId": "developing"
+          },
+          {
+            "measureId": "M10",
+            "districtId": "developing"
+          },
+          {
+            "measureId": "M12"
+          },
+          {
+            "measureId": "M5",
+            "districtId": "industrial"
+          }
+        ]
+      },
+      {
+        "id": "utilities",
+        "name": "Надёжное ЖКХ",
+        "description": "Сети, аварийные службы и городские пространства.",
+        "decisions": [
+          {
+            "measureId": "M13",
+            "districtId": "riverside"
+          },
+          {
+            "measureId": "M14"
+          },
+          {
+            "measureId": "M11",
+            "districtId": "center"
+          },
+          {
+            "measureId": "M9",
+            "districtId": "residential"
+          },
+          {
+            "measureId": "M4",
+            "districtId": "developing"
+          }
+        ]
+      },
+      {
+        "id": "mobility",
+        "name": "Город без барьеров",
+        "description": "Общественный транспорт, перекрёстки и освещение.",
+        "decisions": [
+          {
+            "measureId": "M3",
+            "districtId": "developing"
+          },
+          {
+            "measureId": "M2"
+          },
+          {
+            "measureId": "M10",
+            "districtId": "riverside"
+          },
+          {
+            "measureId": "M9",
+            "districtId": "developing"
+          },
+          {
+            "measureId": "M12"
+          }
+        ]
+      },
+      {
+        "id": "resilience",
+        "name": "Устойчивая среда",
+        "description": "Водоотведение и сети с сохранением социальных мер.",
+        "decisions": [
+          {
+            "measureId": "M15",
+            "districtId": "riverside"
+          },
+          {
+            "measureId": "M10",
+            "districtId": "residential"
+          },
+          {
+            "measureId": "M13",
+            "districtId": "riverside"
+          },
+          {
+            "measureId": "M9",
+            "districtId": "developing"
+          },
+          {
+            "measureId": "M12"
+          }
+        ]
+      }
+    ]
+  },
+  "provenance": {
+    "kind": "synthetic",
+    "numericalOrigin": "Регрессионный учебный набор SteppeX; числовая база и формула сохранены для воспроизводимости, но не описывают население или состояние Петропавловска.",
+    "newMeasure": "Эффекты M15 заданы автором как учебная гипотеза.",
+    "sourceUse": "Официальные публикации используются только для выбора тем, не для калибровки чисел.",
+    "eventStatus": "Не является официальным заданием или продуктом организаторов AI BATTLE."
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.*
+!.env.example
+# Only this public, key-free demo template may be committed.
+!/backend/.env.demo
+coverage/
+*.log
+.DS_Store
+dist/
+.vite/
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+__pycache__/
+*.pyc
+.venv/
