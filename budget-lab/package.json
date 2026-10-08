@@ -1,0 +1,13 @@
+{
+  "name": "fairshare-budget-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Самостоятельный симулятор городских инвестиций, резерва и сценарной выгоды в тенге",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=22.9.0" }
+}

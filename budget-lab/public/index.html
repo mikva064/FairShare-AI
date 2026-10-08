@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1614">
+  <meta name="description" content="Отдельный прототип FairShare: городской бюджет в тенге, резерв на будущие годы и сценарная выгода от мероприятий.">
+  <title>FairShare — Budget Lab</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="FairShare Budget Lab — главная"><span class="brand-mark">F</span><span>FairShare<span class="brand-sub">BUDGET LAB</span></span></a>
+    <div class="top-context"><span class="status-dot"></span>Петропавловск <span class="divider">/</span> Отдельный прототип</div>
+    <button id="export" class="button ghost" disabled>Скачать расчёт <span aria-hidden="true">↗</span></button>
+  </header>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">ГОРОДСКИЕ РЕШЕНИЯ · KZT</p>
+      <div class="hero-line"><h1>Бюджет сегодня.<br><span>Возможности завтра.</span></h1><div class="hero-note"><span class="tag">Собственный оптимизатор</span><p>Сравните пользу проектов,<br>сохраните резерв и увидьте,<br>сколько стоит их содержание.</p></div></div>
+      <div class="demo-banner"><span class="demo-icon" aria-hidden="true">i</span><p><strong>Бюджетный источник + учебная модель проектов.</strong> Плановые суммы города показаны отдельно. Стоимость мероприятий, вероятности и эффекты остаются редактируемыми допущениями.</p><button id="reset" class="text-button">Сбросить демо</button></div>
+    </section>
+    <div id="error" class="error-banner" role="alert" hidden></div>
+    <section id="budget-source" class="panel source-panel" aria-label="Бюджетный источник Петропавловска"></section>
+    <div class="workspace">
+      <aside class="sidebar panel">
+        <div class="section-label"><span>01</span> Параметры бюджета</div>
+        <form id="config-form">
+          <label>Лимит нашего сценария, ₸<input name="budgetKzt" type="number" min="1" max="1000000000000" step="1" required><small>Задаётся отдельно от уже распределённого бюджета города.</small></label>
+          <label>Резерв после вложений, ₸<input name="reserveKzt" type="number" min="0" max="1000000000000" step="1" required><small>Эту сумму нельзя потратить на запуск проектов.</small></label>
+          <label>Защищённый остаток в будущем, ₸<input name="futureFloorKzt" type="number" min="0" max="1000000000000" step="1" required><small>Должен сохраниться даже без поступления ожидаемой экономии.</small></label>
+          <div class="form-pair"><label>Горизонт, лет<input name="horizonYears" type="number" min="1" max="10" step="1" required></label><label>Максимум проектов<input name="maxProjects" type="number" min="1" max="15" step="1" required></label></div>
+          <div class="form-pair"><label>Рост содержания, %<input name="costInflationPct" type="number" min="0" max="50" step="0.1" required></label><label>Дисконтирование, %<input name="discountPct" type="number" min="0" max="50" step="0.1" required></label></div>
+          <p class="field-hint">Ставки — ваши сценарные допущения. Дисконтирование учитывает меньшую ценность отдалённой выгоды.</p>
+          <button class="button secondary full" type="submit">Пересчитать мой выбор</button>
+        </form>
+        <div class="sidebar-divider"></div>
+        <label class="reference-label">Сравнить с бюджетной программой<select id="reference"><option value="">Без привязки</option></select></label>
+        <p id="reference-note" class="field-hint">Сравнение показывает масштаб сценария и не подтверждает наличие свободных средств.</p>
+        <button id="use-reference" class="button ghost full" disabled>Взять сумму как сценарный лимит</button>
+        <div class="sidebar-divider"></div>
+        <p class="eyebrow">ПОДБОР ПАКЕТА</p><p class="sidebar-copy">Алгоритм перебирает все сочетания текущего каталога и соблюдает заданные ограничения.</p>
+        <button id="optimize" class="button primary full">Подобрать варианты <span aria-hidden="true">→</span></button>
+        <p class="field-hint">Закрепите обязательные проекты в карточках. Подбор выполняется нашим алгоритмом бесплатно.</p>
+        <a class="advisor-jump" href="#ai-panel">Перейти к AI-советнику ↓</a>
+        <p id="save-state" class="save-state">Настройки сохраняются в этом браузере.</p>
+      </aside>
+      <div class="main-column">
+        <section id="summary" class="summary" aria-live="polite"><div class="panel loading">Загружаем модель…</div></section>
+        <section class="panel catalog-panel">
+          <div class="section-heading"><div><div class="section-label"><span>02</span> Портфель мероприятий</div><h2>Что изменим в городе?</h2></div><button id="example" class="button ghost">Загрузить пример</button></div>
+          <div class="catalog-toolbar"><p id="selection-count">Выберите мероприятия или запустите подбор.</p><button id="clear" class="text-button">Очистить выбор</button></div>
+          <div id="catalog" class="project-grid"></div>
+        </section>
+      </div>
+    </div>
+    <section id="strategies" class="section-space" hidden aria-live="polite"></section>
+    <section id="details" class="section-space" aria-live="polite"></section>
+    <section id="ai-panel" class="panel ai-panel section-space">
+      <div class="section-heading"><div><div class="section-label"><span>AI</span> Советник по проверенным расчётам</div><h2>Почему этот вариант подходит?</h2></div><span id="ai-status" class="tag">Проверяем подключение…</span></div>
+      <p class="detail-subtitle">Спросите о резерве, выгоде и компромиссах. Советник опирается на собственный движок и бюджетный источник; применение предложенного пакета — по вашему выбору.</p>
+      <form id="ai-form"><label for="ai-question">Ваш вопрос</label><textarea id="ai-question" maxlength="1500" required rows="3">Как улучшить распределение средств, сохранить резерв на будущие годы и объяснить ожидаемую выгоду?</textarea><div class="ai-actions"><button id="analyze" class="button primary" type="submit" disabled>Спросить ИИ · платно</button><p id="ai-hint" class="field-hint">Один запрос к модели. Точная стоимость зависит от токенов и тарифа вашего API.</p></div></form>
+      <div id="ai-error" class="error-banner" role="alert" hidden></div>
+      <div id="ai-answer" aria-live="polite"></div>
+    </section>
+    <section class="panel methods section-space">
+      <div class="section-label"><span>05</span> Как получены результаты</div>
+      <div class="method-grid"><div><h3>Выгода из параметров</h3><p>Экономия бюджета и предотвращённый ущерб считаются отдельно. Социальный приоритет — экспертные баллы; их не переводим в тенге.</p></div><div><h3>Резерв с учётом содержания</h3><p>Будущий защищённый остаток — деньги после вложений и ежегодного содержания. Ожидаемая экономия показана отдельно и не гарантирует резерв.</p></div><div><h3>Три сценария эффекта</h3><p>В нижнем и верхнем вариантах выгода меняется на −35% и +35%. Это проверка чувствительности, а не статистический прогноз.</p></div></div>
+      <details><summary>Формулы и ограничения</summary><div id="assumptions" class="method-text"></div></details>
+    </section>
+  </main>
+  <footer class="footer"><span>FairShare / Budget Lab</span><span>Собственный движок · ИИ по запросу · модель budget-lab-v1</span></footer>
+  <dialog id="project-dialog">
+    <form id="project-form"><div class="dialog-heading"><div><p class="eyebrow">ПАРАМЕТРЫ МЕРОПРИЯТИЯ</p><h2 id="editor-title"></h2></div><button id="close-editor" class="icon-button" type="button" aria-label="Закрыть">×</button></div>
+      <p class="field-hint">Задайте собственные предположения. Для реального расчёта укажите источник каждого значения в поле основания.</p>
+      <div class="editor-grid">
+        <label>Разовые вложения, ₸<input name="costKzt" type="number" min="1" max="1000000000000" step="1" required></label>
+        <label>Содержание в ценах 1-го года, ₸<input name="annualOperatingKzt" type="number" min="0" max="1000000000000" step="1" required></label>
+        <label>Экономия бюджета за год, ₸<input name="annualSavingKzt" type="number" min="0" max="1000000000000" step="1" required></label>
+        <label>Год начала эффекта<input name="startYear" type="number" min="1" max="10" step="1" required></label>
+        <label>Годовая вероятность события, %<input name="riskPct" type="number" min="0" max="100" step="0.01" required></label>
+        <label>Ущерб при событии, ₸<input name="damageKzt" type="number" min="0" max="1000000000000" step="1" required></label>
+        <label>Снижение ущерба, %<input name="mitigationPct" type="number" min="0" max="100" step="0.1" required></label>
+        <label>Социальный приоритет, баллы<input name="impactPoints" type="number" min="0" max="100" step="0.1" required></label>
+      </div>
+      <label>Основание параметров<textarea name="source" maxlength="1000" required rows="3"></textarea></label>
+      <p class="field-hint">Числовые допущения пользователя не проходят автоматическую проверку достоверности.</p>
+      <div class="dialog-actions"><button id="cancel-editor" class="button ghost" type="button">Отмена</button><button class="button primary" type="submit">Сохранить и пересчитать</button></div>
+    </form>
+  </dialog>
+  <dialog id="reset-dialog"><h2>Вернуться к учебному примеру?</h2><p class="detail-subtitle">Ваш выбор и параметры в этой отдельной версии будут заменены исходными. Перед сбросом можно скачать текущий расчёт.</p><div class="dialog-actions"><button id="cancel-reset" class="button ghost">Отмена</button><button id="confirm-reset" class="button primary">Сбросить к примеру</button></div></dialog>
+  <dialog id="ai-confirm"><h2>Запустить платный AI-анализ?</h2><p class="detail-subtitle">Ваш вопрос, параметры мероприятий и расчёты будут отправлены в OpenAI. Выполняется один запрос к модели. Он расходует API-баланс; точная сумма зависит от токенов и тарифа. Ошибки ответа тоже могут расходовать токены.</p><div class="dialog-actions"><button id="cancel-ai" class="button ghost">Отмена</button><button id="confirm-ai" class="button primary">Подтвердить один запрос</button></div></dialog>
+  <noscript>Для расчёта включите JavaScript в браузере.</noscript>
+</body>
+</html>

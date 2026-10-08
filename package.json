@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "test": "node --test",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "dev:budget": "npm --prefix budget-lab run dev",
+    "test:budget": "npm --prefix budget-lab test"
   },
   "engines": {
     "node": ">=22.9.0"
